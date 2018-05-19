@@ -1,0 +1,24 @@
+---
+- name: Create VPC Network
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Create routes private subnets
+      gce_net:
+        name: '{{ network }}'
+        mode: custom
+        subnet_name: '{{ item.name }}'
+        subnet_region: '{{ item.region }}'
+        ipv4_range: '{{ item.ipv4_range }}'
+      with_items: '{{ subnetworks }}'
+      tags: network-bastion
+
+    - name: Create firewall ssh role bastion to private network
+      gce_net:
+        name: '{{ network }}'
+        fwname: '{{ network_environment }}-ssh-bastion-to-private'
+        allowed: tcp:22
+        src_tags: bastion
+        target_tags: "private-network"
+      tags: network-bastion

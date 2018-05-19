@@ -1,0 +1,6 @@
+network: "routes-learn-infrastructure-network"
+network_environment: "staging"
+region: "asia-southeast1"
+subnetworks:
+  - { name: "application", region: "{{ region }}", ipv4_range: "172.16.1.0/24" }
+  - { name: "public", region: "{{ region }}", ipv4_range: "172.16.2.0/24" }

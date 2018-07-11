@@ -1,0 +1,25 @@
+- name: Update package from source list
+  apt:
+    update_cache: True
+  tags: base
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-pip
+    - python-setuptools
+    - unzip
+    - openjdk-8-jdk
+  tags: base
+
+- name: Update pip latest version
+  pip:
+    name: pip
+    state: latest
+  tags: base
+
+- name: Set timedatectl to Asia/Jakarta
+  command: timedatectl set-timezone Asia/Jakarta
+  tags: base

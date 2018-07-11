@@ -1,6 +1,24 @@
-network: "routes-learn-infrastructure-network"
+network: "default"
 network_environment: "staging"
-region: "asia-southeast1"
+network_region: "asia-southeast1"
+
 subnetworks:
-  - { name: "application", region: "{{ region }}", ipv4_range: "172.16.1.0/24" }
-  - { name: "public", region: "{{ region }}", ipv4_range: "172.16.2.0/24" }
+  - { name: "default", region: "{{ region }}", ipv4_range: "10.148.0.0/20" }
+
+#bastion
+bastion_name: "bastion-20180703"
+bastion_external_ip: "ephemeral"
+bastion_region: "asia-southeast1-a"
+bastion_machine_type: "n1-standard-1"
+bastion_base_image: "ubuntu-1604-xenial-v20180522"
+bastion_subnetwork: "default"
+
+#jenkins
+jenkins_name: "jenkins-machine-20180703"
+jenkins_static_ip_name: "jenkins-static-ip"
+jenkins_static_ip_region: "asia-southeast1"
+jenkins_external_ip: "ephemeral"
+jenkins_region: "asia-southeast1-a"
+jenkins_machine_type: "n1-standard-1"
+jenkins_base_image: "ubuntu-1604-xenial-v20180522"
+jenkins_subnetwork: "default"

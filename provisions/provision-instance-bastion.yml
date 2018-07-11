@@ -1,0 +1,36 @@
+- name: Provision Instance Bastion
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Create instance bastion
+      gce:
+        name: "{{ bastion_name }}"
+        external_ip: "{{ bastion_external_ip }}"
+        zone: "{{ bastion_region }}"
+        machine_type: "{{ bastion_machine_type }}"
+        image: "{{ bastion_base_image }}"
+        network: "{{ network }}"
+        subnetwork: "{{ bastion_subnetwork }}"
+        service_account_permissions:
+          - compute-rw
+          - storage-ro
+          - monitoring-write
+          - logging-write
+          - cloud-platform
+        tags: bastion
+      register: gce_instance_bastion
+
+    - name: Save host data
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: gce_instances_ips
+      with_items: "{{ gce_instance_bastion.instance_data }}"
+
+    - name: Wait for SSH to come up
+      wait_for: 
+        host: "{{ item.public_ip }}"
+        port: 22
+        delay: 10
+        timeout: 300
+      with_items: "{{ gce_instance_bastion.instance_data }}"

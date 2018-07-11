@@ -1,0 +1,9 @@
+- name: Deploy Instance Jenkins Machine
+  hosts: "{{ host_name }}"
+  become: True
+  gather_facts: False
+  
+  tasks:
+  roles:
+    - { role: base }
+    - { role: jenkins }

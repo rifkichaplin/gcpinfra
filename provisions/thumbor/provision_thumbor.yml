@@ -1,0 +1,21 @@
+- name: Provision thumbor instance
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Create instance for thumbor
+      gce:
+        name: '{{ thumbor_instance_name }}'
+#        tags: http-server, https-server, thumbor-web
+        external_ip: none
+        zone: '{{ thumbor_region }}'
+        machine_type: '{{ thumbor_machine_type }}'
+        image: '{{ thumbor_base_image }}'
+        service_account_permissions:
+          - compute-ro
+          - storage-ro
+          - monitoring-write
+          - logging-write
+          - cloud-platform
+      register: gce_instances

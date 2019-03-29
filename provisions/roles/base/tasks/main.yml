@@ -10,14 +10,9 @@
   with_items:
     - python-pip
     - python-setuptools
+    - virtualenv
     - unzip
     - openjdk-8-jdk
-  tags: base
-
-- name: Update pip latest version
-  pip:
-    name: pip
-    state: latest
   tags: base
 
 - name: Set timedatectl to Asia/Jakarta

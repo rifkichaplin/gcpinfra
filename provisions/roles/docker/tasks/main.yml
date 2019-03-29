@@ -1,0 +1,12 @@
+- name: Install docker from ubuntu Repository
+  apt:
+    name: docker.io
+    state: latest
+  tags: docker
+
+- name: Start docker service
+  systemd:
+    name: docker
+    state: restarted
+    enabled: yes
+  tags: docker

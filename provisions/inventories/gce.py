@@ -217,7 +217,7 @@ class GceInventory(object):
         # This provides empty defaults to each key, so that environment
         # variable configuration (as opposed to INI configuration) is able
         # to work.
-        config = configparser.SafeConfigParser(defaults={
+        config = configparser.ConfigParser(defaults={
             'gce_service_account_email_address': '',
             'gce_service_account_pem_file_path': '',
             'gce_project_id': '',

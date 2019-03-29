@@ -1,0 +1,9 @@
+- name: Deploy Thumbor Web
+  hosts: "{{ host_name }}"
+  user: rifkichaplin
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - { role: base }
+    - { role: docker }

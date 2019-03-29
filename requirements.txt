@@ -1,0 +1,34 @@
+# ansible requires setuptools, unfortunately pip install has some dependency topology to adhere, file dependency ordering does not apply
+setuptools==39.2.0
+ansible==2.7.9
+apache-libcloud==2.4.0
+
+# Drop-in replacement of pycrypto, which is still required by libcloud when
+pycryptodome==3.8.0
+
+# needed by the `json_query` ansible filter:
+jmespath==0.9.4
+
+# Needed for callback plugins
+ansible-lint==4.1.0
+
+# Needed when running gsutil inside a virtualenv on a GCE instance
+google_compute_engine
+
+# for ipaddr filters and filter_plugins/net.py
+netaddr==0.7.19
+
+# These are nested dependencies which have binary packages on pypi. Specify
+# --only-binary to make sure compilation is skipped, as maintainer may upload
+bcrypt==3.1.6 --only-binary=bcrypt
+cffi==1.12.2 --only-binary=cffi
+cryptography==2.6.1 --only-binary=cryptography
+PyNaCl==1.3.0 --only-binary=PyNaCl
+
+# Dependency of ansible, will compile optimized version if both gcc and yaml.h
+# are present, otherwise fallback to pure-python.
+# Can't force --only-binary as it only has wheel packages for windows.
+PyYAML==5.1
+
+# Needed by new scripts for colored TTY logging
+colorama==0.4.1

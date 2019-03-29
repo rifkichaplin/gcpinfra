@@ -6,11 +6,11 @@ subnetworks:
   - { name: "default", region: "{{ region }}", ipv4_range: "10.148.0.0/20" }
 
 #bastion
-bastion_name: "bastion-20180703"
+bastion_name: "bastion-20190322"
 bastion_external_ip: "ephemeral"
 bastion_region: "asia-southeast1-a"
-bastion_machine_type: "n1-standard-1"
-bastion_base_image: "ubuntu-1604-xenial-v20180522"
+bastion_machine_type: "f1-micro"
+bastion_base_image: "ubuntu-minimal-1804-bionic-v20190320"
 bastion_subnetwork: "default"
 
 #jenkins
@@ -22,3 +22,14 @@ jenkins_region: "asia-southeast1-a"
 jenkins_machine_type: "n1-standard-1"
 jenkins_base_image: "ubuntu-1604-xenial-v20180522"
 jenkins_subnetwork: "default"
+
+#thumbor
+thumbor_instance_name: "thumbor-web"
+thumbor_region: "asia-southeast1-a"
+thumbor_service_permissions:
+  - compute-ro
+  - storage-rw
+  - monitoring-write
+  - logging-write
+thumbor_machine_type: "n1-standard-1"
+thumbor_base_image: "ubuntu-1804-bionic-v20190320"

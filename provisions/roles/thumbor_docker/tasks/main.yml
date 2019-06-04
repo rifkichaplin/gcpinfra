@@ -1,0 +1,54 @@
+- name: thumbor redis
+  docker_container:
+    name: thumbor_redis
+    image: redis:latest
+    state: started
+    restart: yes
+    ports:
+      - '6379:6379'
+  tags: thumbor_deploy
+ 
+- name: application thumbor
+  docker_container:
+    name: thumbor
+    image: apsl/thumbor:latest
+    state: started
+    restart: yes
+#    volumes:
+#      - ./thumbor/data:/data
+#      - ./thumbor/logs:/logs 
+    env:
+        DETECTORS=['thumbor.detectors.queued_detector.queued_complete_detector']
+        STORAGE=thumbor.storages.mixed_storage
+        REDIS_STORAGE_SERVER_HOST=redis
+        REDIS_STORAGE_SERVER_PORT=6379
+        REDIS_STORAGE_SERVER_DB=0
+        REDIS_QUEUE_SERVER_HOST=redis
+        REDIS_QUEUE_SERVER_PORT=6379
+        REDIS_QUEUE_SERVER_DB=0
+        MIXED_STORAGE_DETECTOR_STORAGE=tc_redis.storages.redis_storage
+  tags: thumbor_deploy
+
+- name: thumbor nginx
+  docker_container:
+    name: thumbor_nginx
+    image: apsl/thumbor-nginx:latest
+    state: started
+    restart: yes
+    volumes:
+      - ./thumbor/data:/data
+    ports:
+      - "8000:80" # nginx cache port (with failover to thumbor)
+  tags: thumbor_deploy
+
+- name: thumbor remotecv
+  docker_container:
+    name: thumbor_remotecv
+    image: apsl/remotecv:latest
+    state: started
+    restart: yes
+    env:
+        REMOTECV_REDIS_HOST=redis
+        REMOTECV_REDIS_PORT=6379
+        REMOTECV_REDIS_DATABASE=0
+  tags: thumbor_deploy

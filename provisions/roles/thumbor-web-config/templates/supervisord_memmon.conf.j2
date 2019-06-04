@@ -1,0 +1,7 @@
+[eventlistener:memmon-thumbor]
+command=memmon \
+{% for port_num in range(0, thumbor_numprocs, 2) %}
+  -p thumbor:thumbor200{{port_num}}=450MB
+  -p thumbor:thumbor200{{port_num+1}}=500MB
+{% endfor %}
+events=TICK_60

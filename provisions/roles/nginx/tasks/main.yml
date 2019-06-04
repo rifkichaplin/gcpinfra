@@ -1,0 +1,29 @@
+- name: Add ubuntu key server for nginx
+  apt_key:
+    data: "{{ lookup('file', 'nginx.key.gpg') }}"
+    state: present
+  tags: nginx
+
+- name: Adds repo nginx repo
+  apt_repository:
+    repo: 'ppa:nginx/development'
+    update_cache: yes
+    state: present
+    validate_certs: False
+  tags: nginx
+
+- name: Install nginx webserver
+  apt:
+    pkg: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+      - nginx-extras
+  tags: nginx
+
+- name: Start and enable nginx service
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+  tags: nginx

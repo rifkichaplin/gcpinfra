@@ -17,6 +17,9 @@ export GCE_EMAIL=$(iam service account email)
 export GCE_PEM_FILE_PATH=$(path service account file).json
 export CLOUDSDK_CORE_PROJECT=$GCE_PROJECT
 
+#create file based on environment above and run
+source ~/.gce_pension-as-engineer
+
 # gcpinfra
 
 How to Running

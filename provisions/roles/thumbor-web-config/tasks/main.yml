@@ -1,0 +1,24 @@
+- include_tasks: config.yml
+  tags: thumbor-web
+
+- name: Copy thumbor startup script
+  template:
+    src: service-startup.sh.j2
+    dest: /opt/startup-thumbor-web.sh
+    owner: root
+    group: root
+    mode: 0755
+  tags: thumbor-web
+
+- name: Copy crossdomain.xml and robots.txt to thumbor instance
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/share/nginx/html/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - thumbor-fallback-image.gif
+    - crossdomain.xml
+    - robots.txt
+  tags: thumbor-web

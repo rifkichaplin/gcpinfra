@@ -1,0 +1,8 @@
+#! /bin/bash
+# To run this script again:
+#   sudo google_metadata_script_runner --script-type startup
+
+set -xe
+
+systemctl restart supervisord
+systemctl restart nginx

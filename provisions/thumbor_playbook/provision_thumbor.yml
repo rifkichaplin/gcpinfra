@@ -7,8 +7,7 @@
     - name: Create instance for thumbor
       gce:
         name: '{{ thumbor_instance_name }}'
-#        tags: http-server, https-server, thumbor-web
-        external_ip: none
+        tags: http-server,https-server,thumbor-web
         zone: '{{ thumbor_region }}'
         machine_type: '{{ thumbor_machine_type }}'
         image: '{{ thumbor_base_image }}'

@@ -1,0 +1,7 @@
+[eventlistener:logging]
+command = supervisor_logging
+events = PROCESS_LOG
+environment=
+    SYSLOG_SERVER="{{ thumbor_logserver_host }}",
+    SYSLOG_PORT="{{ thumbor_logserver_port }}",
+    SYSLOG_PROTO="udp"

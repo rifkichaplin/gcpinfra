@@ -1,0 +1,10 @@
+[program:thumbor]
+command=thumbor --port=200%(process_num)s --conf=/etc/thumbor/thumbor.conf
+process_name=thumbor200%(process_num)s
+numprocs={{ thumbor_numprocs }}
+autostart=true
+autorestart=true
+startretries=3
+stopsignal=TERM
+stdout_logfile=syslog
+stderr_logfile=syslog

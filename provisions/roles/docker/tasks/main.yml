@@ -10,3 +10,15 @@
     state: restarted
     enabled: yes
   tags: docker
+
+- name: pip install docker
+  pip:
+    name: docker
+    state: latest
+  tags: docker
+
+- name: pip install docker-py
+  pip:
+    name: docker-py
+    state: absent
+  tags: docker

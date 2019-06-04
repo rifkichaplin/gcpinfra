@@ -1,0 +1,12 @@
+- name: Deploy Thumbor Web
+  hosts: "{{ deploy_host is defined | ternary(deploy_host, 'tag_thumbor-web') | default('localhost') }}"
+  user: rifkichaplin
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - { role: base }
+    - { role: nginx }
+    - { role: supervisord }
+    - { role: thumbor }
+    - { role: thumbor-web-config }

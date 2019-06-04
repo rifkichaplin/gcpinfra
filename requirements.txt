@@ -32,3 +32,6 @@ PyYAML==5.1
 
 # Needed by new scripts for colored TTY logging
 colorama==0.4.1
+
+docker
+docker-py>=1.7.0

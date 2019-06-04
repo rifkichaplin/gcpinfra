@@ -1,0 +1,94 @@
+- name: Create Thumbor Directory
+  file:
+    path: /etc/thumbor
+    state: directory
+    owner: root
+    group: root
+  tags: thumbor-web
+
+- name: Copy Thumbor Config file
+  template:
+    src: thumbor.conf.j2
+    dest: /etc/thumbor/thumbor.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: thumbor-web
+
+- name: Restart supervisord
+  systemd:
+    name: supervisor
+    state: restarted
+  tags: thumbor-web
+
+- name: Set fact for thumbor_numprocs
+  set_fact:
+    thumbor_numprocs: "{{ ansible_processor_vcpus }}"
+  tags: thumbor-web
+
+- name: Copy thumbor, memmon, and logging conf
+  template:
+    src: "supervisord_{{ item }}.conf.j2"
+    dest: "/etc/supervisor/conf.d/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - thumbor
+    - memmon
+    - logging
+  notify: Restart supervisord
+  tags: thumbor-web
+
+- name: Create Nginx custom configuration directory
+  file:
+    path: /etc/nginx/custom
+    state: directory
+    owner: root
+    group: root
+  tags: thumbor-web
+
+- name: Copy nginx http_conf config
+  template:
+    src: "nginx_http_conf.conf.j2"
+    dest: "/etc/nginx/custom/http_conf.conf"
+    owner: root
+    group: root
+    mode: 0644
+  tags: thumbor-web
+
+- name: Create Nginx thumbor configuration directory
+  file:
+    path: "/etc/nginx/{{ nginx_component }}"
+    state: directory
+    owner: root
+    group: root
+  tags: thumbor-web
+
+- name: Copy nginx http_conf, stub, and thumbor config
+  template:
+    src: "nginx_{{ item }}.conf.j2"
+    dest: "/etc/nginx/{{ nginx_component }}/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - stub
+    - thumbor
+  tags: thumbor-web
+
+- name: Copy over nginx.conf file to /etc/nginx/
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: thumbor-web
+
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+  tags: thumbor-web

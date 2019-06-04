@@ -31,5 +31,5 @@ thumbor_service_permissions:
   - storage-rw
   - monitoring-write
   - logging-write
-thumbor_machine_type: "n1-standard-1"
-thumbor_base_image: "ubuntu-1804-bionic-v20190320"
+thumbor_machine_type: "g1-small"
+thumbor_base_image: "ubuntu-1604-xenial-v20190530c"

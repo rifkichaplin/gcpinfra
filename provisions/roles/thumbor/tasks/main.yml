@@ -1,0 +1,26 @@
+- name: Install Requirements
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - python-pip
+    - libcurl4-openssl-dev
+    - libssl-dev
+    - libopencv-dev
+    - gifsicle
+    - build-essential
+  tags: thumbor
+
+- name: Install thumbor
+  pip:
+    name: thumbor
+  tags: thumbor
+
+- name: Install Thumbor Dependencies
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - google-cloud-storage
+    - git+https://github.com/Superbalist/thumbor-cloud-storage.git
+    - opencv-python
+  tags: thumbor

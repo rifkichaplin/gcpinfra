@@ -1,0 +1,27 @@
+- name: Install supervisord
+  apt: pkg={{ item }} state=installed
+  with_items:
+   - supervisor
+  tags: supervisord
+
+- name: Install supervisor-logging and superlance
+  pip: name={{ item }} state=present
+  with_items:
+    - supervisor-logging
+    - superlance
+  tags: supervisord
+
+- name: Copy supervisor configuration
+  copy:
+    src: supervisord.conf
+    dest: "/etc/supervisor/supervisord.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart supervisord
+  tags: supervisord
+
+- name: Enable supervisor
+  become: yes
+  shell: systemctl enable supervisor
+  tags: supervisord

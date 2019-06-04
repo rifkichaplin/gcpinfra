@@ -1,0 +1,7 @@
+limit_req_status 429;
+
+upstream thumbor {
+  {% for port_num in range(0, thumbor_numprocs) %}
+  server 127.0.0.1:200{{ port_num }};
+  {% endfor %}
+}

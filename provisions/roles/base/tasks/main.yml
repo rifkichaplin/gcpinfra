@@ -14,6 +14,7 @@
     - virtualenv
     - unzip
     - openjdk-8-jdk
+    - whois
   tags: base
 
 - name: Set timedatectl to Asia/Jakarta

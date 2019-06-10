@@ -1,0 +1,29 @@
+- name: Adds certbot repo
+  apt_repository:
+    repo: 'ppa:certbot/certbot'
+    update_cache: yes
+    state: present
+    validate_certs: False
+  tags: certbot
+
+- name: Install certbot
+  apt:
+    pkg: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+      - python-certbot-nginx
+  tags: certbot
+
+- name: reload nginx service
+  systemd:
+    name: nginx
+    state: reloaded
+    enabled: yes
+  tags: certbot
+
+- name: Obtaining an SSL certificate
+  shell: certbot --nginx -d images.{{ domain }} --non-interactive --agree-tos -m {{ email }}
+  ignore_errors: yes
+  tags: certbot
+

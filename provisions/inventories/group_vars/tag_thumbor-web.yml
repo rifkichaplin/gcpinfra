@@ -37,8 +37,15 @@ nginx_servers:
       - port_number: 80
   - custom_conf: "stub.conf"
     mode: simple
+    server_name: "{{ thumbor_server_name }}"
     listen_ports:
       - port_number: 8081
+  - custom_conf: "thumbor.conf"
+    mode: simple
+    server_name: "{{ thumbor_server_name }}"
+    listen_ports:
+      - port_number: 443
+
 nginx_component: thumbor
 nginx_http_custom_config: "true"
 domain: !vault |
@@ -48,3 +55,4 @@ domain: !vault |
           38656333343333396132373831636639313834396430613364383962326161616132333333373730
           6437616664303261390a376138663162653566616431653832613633366238653766653538393535
           6533
+email: rifkichaplin@gmail.com

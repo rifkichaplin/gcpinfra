@@ -54,18 +54,28 @@ http {
   include /etc/nginx/custom/http_conf.conf;
 {% endif %}
 
-{% for server in nginx_servers %}
   server {
-{% for port in server.listen_ports %}
-    listen {{ port.port_number }}{% if port.ssl is defined and port.ssl == "true"%} ssl http2{% endif %}{% if port.proxy_protocol is defined and port.proxy_protocol == "true" %} proxy_protocol{% endif %}{% if port.params is defined %} {{ port.params }}{% endif %};
-{% endfor %}
-{% if server.server_name is defined and server.server_name != "" %}
-    server_name {{ server.server_name }};
-{% endif %}
-
+    listen 80   ;
+    server_name localhost;
     resolver 127.0.0.1;
-    include /etc/nginx/{{ nginx_component }}/{{ server.custom_conf }};
+    include /etc/nginx/thumbor/thumbor.conf;
   }
 
-{% endfor %}
+  server {
+    listen 8081;
+    server_name localhost;
+    resolver 127.0.0.1;
+    include /etc/nginx/thumbor/stub.conf;
+  }
+
+  server {
+    listen 443 ssl http2;
+    server_name localhost;
+    ssl_certificate     /etc/letsencrypt/live/images.{{ domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/images.{{ domain }}/privkey.pem;
+    resolver 127.0.0.1;
+    include /etc/nginx/thumbor/thumbor.conf;
+
+  }
+
 }

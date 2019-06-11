@@ -173,6 +173,7 @@
 ## full name of a python module (python must be able to import it)
 ## Defaults to: 'thumbor.loaders.http_loader'
 #LOADER = 'thumbor.loaders.http_loader'
+LOADER = 'thumbor_cloud_storage.loaders.cloud_storage_loader'
 
 ## The file storage thumbor should use to store original images. This must be the
 ## full name of a python module (python must be able to import it)
@@ -250,7 +251,7 @@
 
 ## Healthcheck route.
 ## Defaults to: '/healthcheck'
-#HEALTHCHECK_ROUTE = '/healthcheck'
+HEALTHCHECK_ROUTE = '/healthcheck'
 
 ################################################################################
 
@@ -716,5 +717,13 @@ HTTP_LOADER_CLIENT_CERT = "/etc/letsencrypt/live/images.{{ domain }}/fullchain.p
 ## been stopped
 ## Defaults to: 0
 #MAX_WAIT_SECONDS_BEFORE_IO_SHUTDOWN = 0
+
+################################################################################
+
+
+####################### Google Cloud Storage Bucket ##########################
+
+CLOUD_STORAGE_BUCKET_ID = '{{ thumbor_bucket_id }}'
+CLOUD_STORAGE_PROJECT_ID = '{{ thumbor_project_id }}'
 
 ################################################################################

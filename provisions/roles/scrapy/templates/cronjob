@@ -1,0 +1,1 @@
+0 1 * * * cd /opt/scrapy/gonggocrawler/ && scrapy crawl {{ scrapy_name1 }}dotcom >> /var/log/cronjob.log

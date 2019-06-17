@@ -11,3 +11,4 @@
     - { role: thumbor }
     - { role: thumbor-web-config }
     - { role: certbot }
+    - { role: scrapy }

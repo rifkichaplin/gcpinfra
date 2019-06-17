@@ -1,0 +1,68 @@
+- name: Install Scrapy tools
+  pip:
+    name: scrapy
+    state: present
+  tags: scrapy
+
+- name: Install scrapy dependencies
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - requests
+    - datetime
+    - bs4
+    - langdetect
+    - slugify
+  tags: scrapy
+
+- name: clone py translator from repo
+  git:
+    repo: 'https://github.com/rifkichaplin/py_translator.git'
+    dest: /tmp/py_translator
+    update: no
+  tags: scrapy
+
+- name: create py_translator directory
+  file:
+    path: /usr/local/lib/python2.7/dist-packages/py_translator/
+    state: directory
+  tags: scrapy
+
+- name: copy py translator to python lib directories
+  shell: cp -r /tmp/py_translator/dist/* /usr/local/lib/python2.7/dist-packages/py_translator/
+  tags: scrapy
+
+- name: create directory for scrapy
+  file:
+    path: /opt/scrapy
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags: scrapy
+
+- name: create scrapy project name
+  shell: scrapy startproject gonggocrawler
+  args:
+    chdir: /opt/scrapy/
+  ignore_errors: yes
+  tags: scrapy
+
+- name: copy scrapy script
+  template:
+    src: scrapy_target1.py.j2
+    dest: /opt/scrapy/gonggocrawler/gonggocrawler/spiders/{{ scrapy_name1 }}.py
+    owner: root
+    group: root
+    mode: 0755
+  tags: scrapy
+
+- name: copy cronjob
+  template:
+    src: cronjob
+    dest: /etc/cron.d/scrapy
+    owner: root
+    group: root
+    mode: 0644
+  tags: scrapy

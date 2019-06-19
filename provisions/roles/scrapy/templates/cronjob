@@ -1,1 +1,1 @@
-0 1 * * * cd /opt/scrapy/gonggocrawler/ && scrapy crawl {{ scrapy_name1 }}dotcom >> /var/log/cronjob.log
+0 1 * * * root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name1 }}dotcom > /dev/null 2>&1

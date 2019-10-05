@@ -16,6 +16,15 @@
     - slugify
   tags: scrapy
 
+- name: remove directory temporary
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /tmp/py_translator/
+    - /usr/local/lib/python2.7/dist-packages/py_translator/
+  tags: scrapy
+
 - name: clone py translator from repo
   git:
     repo: 'https://github.com/rifkichaplin/py_translator.git'
@@ -49,10 +58,37 @@
   ignore_errors: yes
   tags: scrapy
 
-- name: copy scrapy script
+- name: copy scrapy script 1
   template:
     src: scrapy_target1.py.j2
     dest: /opt/scrapy/gonggocrawler/gonggocrawler/spiders/{{ scrapy_name1 }}.py
+    owner: root
+    group: root
+    mode: 0755
+  tags: scrapy
+
+- name: copy scrapy script 2
+  template:
+    src: scrapy_target2.py.j2
+    dest: /opt/scrapy/gonggocrawler/gonggocrawler/spiders/{{ scrapy_name2 }}.py
+    owner: root
+    group: root
+    mode: 0755
+  tags: scrapy
+
+- name: copy scrapy script 3
+  template:
+    src: scrapy_target3.py.j2
+    dest: /opt/scrapy/gonggocrawler/gonggocrawler/spiders/{{ scrapy_name3 }}.py
+    owner: root
+    group: root
+    mode: 0755
+  tags: scrapy
+
+- name: copy scrapy script 4
+  template:
+    src: scrapy_target4.py.j2
+    dest: /opt/scrapy/gonggocrawler/gonggocrawler/spiders/{{ scrapy_name4 }}.py
     owner: root
     group: root
     mode: 0755

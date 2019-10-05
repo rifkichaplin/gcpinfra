@@ -6,39 +6,33 @@ import json
 from datetime import datetime
 from py_translator import Translator
 
-class {{ scrapy_name1 }}Spider(scrapy.Spider):
-    name = "{{ scrapy_name1 }}dotcom"
-    start_urls = ['https://www.{{ scrapy_name1 }}.com/']
-
+class gamesradar_cheatSpider(scrapy.Spider):
+    name = "gamesradardotcom"
+    start_urls = ['https://www.{{ scrapy_name3 }}.com/au/cheats/']
     def parse(self, response):
-        url = response.css("div.post-entry a")[0].attrib['href']
+        url = response.css("div.listingResults a")[4].attrib['href']
         yield response.follow(url, self.parse_author)
-
     def parse_author(self, response):
         # for grab metadata
         #'content' : response.xpath("//meta[@name='description']/@content")[0].extract(),
-
         wp_url = 'https://www.{{ domain }}/wp-json/wp/v2/posts/'
-        auth = '{{ scrapy_auth1 }}'
+        auth = '{{ scrapy_auth3 }}'
         headers = {
             #'Accept': 'application/json',
             #'Content-Type': 'application/json',
             'Authorization': 'Basic '+ auth,
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.80 Safari/537.36',
         }
-
         if response.status != 200:
             print ("Server maybe has been down..!")
             raise SystemExit
-
         join_line = ""
-        for content in response.css("div.post-entry p"):
+        for content in response.css("div.text-copy p"):
             join_line += content.get()
-        title = response.css('title::text').get().replace(' - {{ scrapy_title1 }}','')
+        title = response.css('title::text').get().replace(' | {{ scrapy_title3 }}','')
         trans_lang = 'id'
         trans_title = Translator().translate(text=title, dest=trans_lang).text
         trans_content = Translator().translate(text=join_line[0:4999], dest=trans_lang).text
-
         data = {
             'title': trans_title,
             'type': 'post',
@@ -53,5 +47,5 @@ class {{ scrapy_name1 }}Spider(scrapy.Spider):
             'content' : join_line,
             'trans_title' : trans_title,
             'trans_content' : trans_content,
-            'source' : 'www.{{ scrapy_name1 }}.com',
+            'source' : 'www.{{ scrapy_name3 }}.com',
         }

@@ -22,3 +22,56 @@
     - crossdomain.xml
     - robots.txt
   tags: thumbor-web
+
+- name: mkdir archive letsencrypt
+  file:
+    path: /etc/letsencrypt/archive/
+    state: directory
+    mode: '0700'
+    recurse: yes
+    owner: root
+    group: root
+  tags: thumbor-web
+
+- name: "mkdir {{ domain }} letsencrypt"
+  file:
+    path: /etc/letsencrypt/archive/images.{{ domain }}.com
+    state: directory
+    mode: '0755'
+    recurse: yes
+    owner: root
+    group: root
+  tags: thumbor-web
+
+- name: mkdir live letsecrypt
+  file: /etc/letsencrypt/live
+    state: directory
+    mode: '0755'
+    recurse: yes
+    owner: root
+    group: root
+  tags: thumbor-web
+
+- name: mkdir live {{ domain }} letsecrypt
+  file: /etc/letsencrypt/live/images.{{ domain }}.com
+    state: directory
+    mode: '0755'
+    recurse: yes
+    owner: root
+    group: root
+  tags: thumbor-web
+
+- name: copy ssl key
+  shell: gsutil cp gs://{{ domain }}dotcom/ssl/images.{{ domain }}.com/* /etc/letsencrypt/archive/images.{{ domain }}.com/
+  tags: thumbor-web
+
+- name: create ssl symbolic link
+  file:
+    src: /etc/letsencrypt/archive/images.{{ domain }}.com/{{ item }}
+    dest: /etc/letsencrypt/live/images.{{ domain }}.com/{{ item }}
+  with_item:
+    - privkey2.pem
+    - fullchain2.pem
+    - chain2.pem
+    - cert2.pem
+  tags: thumbor-web

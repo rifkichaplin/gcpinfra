@@ -24,3 +24,4 @@
     - git+https://github.com/Superbalist/thumbor-cloud-storage.git
     - opencv-python
   tags: thumbor
+  become: yes

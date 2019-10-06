@@ -24,12 +24,12 @@ jenkins_base_image: "ubuntu-1604-xenial-v20180522"
 jenkins_subnetwork: "default"
 
 #thumbor
-thumbor_instance_name: "thumbor-web"
+thumbor_instance_name: "thumbor-web-f1-micro"
 thumbor_region: "asia-southeast1-a"
 thumbor_service_permissions:
   - compute-ro
   - storage-rw
   - monitoring-write
   - logging-write
-thumbor_machine_type: "g1-small"
+thumbor_machine_type: "f1-micro"
 thumbor_base_image: "ubuntu-1604-xenial-v20190530c"

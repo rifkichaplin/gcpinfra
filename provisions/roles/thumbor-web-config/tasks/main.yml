@@ -44,7 +44,8 @@
   tags: thumbor-web
 
 - name: mkdir live letsecrypt
-  file: /etc/letsencrypt/live
+  file:
+    path: /etc/letsencrypt/live
     state: directory
     mode: '0755'
     recurse: yes
@@ -52,8 +53,9 @@
     group: root
   tags: thumbor-web
 
-- name: mkdir live {{ domain }} letsecrypt
-  file: /etc/letsencrypt/live/images.{{ domain }}.com
+- name: "mkdir live {{ domain }} letsecrypt"
+  file:
+    path: /etc/letsencrypt/live/images.{{ domain }}.com
     state: directory
     mode: '0755'
     recurse: yes
@@ -67,9 +69,9 @@
 
 - name: create ssl symbolic link
   file:
-    src: /etc/letsencrypt/archive/images.{{ domain }}.com/{{ item }}
-    dest: /etc/letsencrypt/live/images.{{ domain }}.com/{{ item }}
-  with_item:
+    src: "/etc/letsencrypt/archive/images.{{ domain }}.com/{{ item }}"
+    dest: " /etc/letsencrypt/live/images.{{ domain }}.com/{{ item }}"
+  with_items:
     - privkey2.pem
     - fullchain2.pem
     - chain2.pem

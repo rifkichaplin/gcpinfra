@@ -3,11 +3,12 @@ import sys
 import base64
 import requests
 import json
+import re
 from datetime import datetime
 from py_translator import Translator
 
-class gamesradar_cheatSpider(scrapy.Spider):
-    name = "gamesradardotcom"
+class {{ scrapy_name3 }}_cheatSpider(scrapy.Spider):
+    name = "{{ scrapy_name3 }}_cheatdotcom"
     start_urls = ['https://www.{{ scrapy_name3 }}.com/au/cheats/']
     def parse(self, response):
         url = response.css("div.listingResults a")[4].attrib['href']
@@ -29,6 +30,12 @@ class gamesradar_cheatSpider(scrapy.Spider):
         join_line = ""
         for content in response.css("div.text-copy p"):
             join_line += content.get()
+
+        #clean html tag inside
+        cleanr = re.compile('<.*?>')
+        cleantext = re.sub(cleanr, '', join_line)
+        join_line = cleantext
+
         title = response.css('title::text').get().replace(' | {{ scrapy_title3 }}','')
         trans_lang = 'id'
         trans_title = Translator().translate(text=title, dest=trans_lang).text

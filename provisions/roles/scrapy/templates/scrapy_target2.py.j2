@@ -3,6 +3,7 @@ import sys
 import base64
 import requests
 import json
+import re
 from datetime import datetime
 from py_translator import Translator
 
@@ -34,6 +35,12 @@ class {{ scrapy_name2 }}Spider(scrapy.Spider):
         join_line = ""
         for content in response.css("div.text-copy p"):
             join_line += content.get()
+
+        #clean html tag inside
+        cleanr = re.compile('<.*?>')
+        cleantext = re.sub(cleanr, '', join_line)
+        join_line = cleantext
+
         title = response.css('title::text').get().replace(' | {{ scrapy_title2 }}','')
         trans_lang = 'id'
         trans_title = Translator().translate(text=title, dest=trans_lang).text

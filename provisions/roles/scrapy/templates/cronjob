@@ -1,4 +1,5 @@
 0 1 * * MON,FRI root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name1 }}dotcom > /dev/null 2>&1
 0 1 * * TUE root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name2 }}dotcom > /dev/null 2>&1
-0 1 * * WED,SUN root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name3 }}dotcom > /dev/null 2>&1
-0 1 * * THU,SAT root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name3 }}_cheatdotcom > /dev/null 2>&1
+0 1 * * WED root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name5 }}dotcom > /dev/null 2>&1
+0 1 * * SUN,THU root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name3 }}dotcom > /dev/null 2>&1
+0 1 * * SAT root cd /opt/scrapy/gonggocrawler/ ;/usr/local/bin/scrapy crawl {{ scrapy_name3 }}_cheatdotcom > /dev/null 2>&1

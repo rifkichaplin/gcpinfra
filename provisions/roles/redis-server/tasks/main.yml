@@ -1,0 +1,29 @@
+- name: install redis
+  apt:
+    name: redis-server
+    state: latest
+  tags: redis
+
+- name: install redis php extension
+  apt:
+    name: php-redis
+    state: present
+  tags: redis
+
+- name: Install tc_redis pip
+  pip:
+    name: tc_redis
+    state: present
+  tags: redis
+
+- name: copy redis configuration
+  template:
+    src: redis.conf.template
+    dest: /etc/redis/redis.conf
+  tags: redis
+
+- name: reload redis configuration
+  service:
+    name: redis
+    state: restarted
+  tags: redis

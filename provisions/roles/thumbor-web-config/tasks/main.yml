@@ -23,6 +23,11 @@
     - robots.txt
   tags: thumbor-web
 
+- name: Obtaining an SSL certificate
+  shell: certbot --nginx -d images.{{ domain }} --non-interactive --agree-tos -m {{ email }}
+  ignore_errors: yes
+  tags: thumbor-web
+
 - name: mkdir archive letsencrypt
   file:
     path: /etc/letsencrypt/archive/

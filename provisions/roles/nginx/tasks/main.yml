@@ -20,10 +20,3 @@
   with_items:
       - nginx-extras
   tags: nginx
-
-- name: Start and enable nginx service
-  systemd:
-    name: nginx
-    state: started
-    enabled: yes
-  tags: nginx

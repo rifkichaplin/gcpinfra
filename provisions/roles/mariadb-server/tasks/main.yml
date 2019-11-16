@@ -1,0 +1,27 @@
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+  tags: mariadb-server
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+  tags: mariadb-server
+
+- name: Install MariaDB Server
+  apt:
+    name: mariadb-server=10.0.38*
+    state: present
+  tags: mariadb-server
+
+- name: Install MariaDB Client
+  apt:
+    name: mariadb-client
+    state: present
+  tags: mariadb-server
+
+- name: Start MariaDB service
+  service:
+    name: mysql
+    state: started
+  tags: mariadb-server

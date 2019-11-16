@@ -1,0 +1,106 @@
+#http://www.geoffstratton.com/install-latest-nginx-source-ubuntu-1604
+
+- name: Add nginx apt respository
+  apt_repository:
+    repo: 'ppa:nginx/development'
+    codename: xenial 
+  tags: nginx_brotli
+
+- name: Add source repository into source list
+  apt_repository:
+    repo: deb-src http://ppa.launchpad.net/nginx/development/ubuntu xenial main
+    state: present
+  tags: nginx_brotli
+
+- name: Update repository
+  apt:
+    update_cache: yes
+  tags: nginx_brotli
+
+- name: mkdir for nginx_custom_build
+  file:
+    path: /opt/nginx_custom_build
+    state: directory
+    mode: '0755'
+  tags: nginx_brotli
+
+- name: remove libssl-dev package
+  apt:
+    name: libssl-dev
+    state: absent
+  tags: nginx_brotli
+
+- name: install libssl-dev version 1.1.1 for support SSL 1.1.0
+  apt:
+    name: libssl-dev=1.1.1*
+  tags: nginx_brotli
+
+- name: install nginx brotli dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - dpkg-dev
+    - build-essential
+    - git
+  tags: nginx_brotli
+
+- name: install packages for building nginx from source
+  shell: "apt-get -y build-dep nginx"
+  args:
+    chdir: /opt/nginx_custom_build
+  tags: nginx_brotli
+
+- name: Download nginx from source file
+  shell: "apt-get -y source nginx"
+  args:
+    chdir: /opt/nginx_custom_build
+  tags: nginx_brotli
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+  tags: nginx_brotli
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+  tags: nginx_brotli
+
+#- name: clone nginx brotli
+#  git:
+#    repo: 'https://github.com/google/ngx_brotli.git'
+#    recursive: yes
+#    dest: /opt/nginx_custom_build/ngx_brotli
+#    update: no
+#  tags: nginx_brotli
+#
+#- name: copy rule which has been added brotli module line
+#  copy:
+#    src: rules
+#    dest: /opt/nginx_custom_build/nginx-1.15.8/debian/rules
+#    owner: root
+#    group: root
+#    mode: '0755'    
+#  tags: nginx_brotli
+#
+#- name: build nginx package
+#  shell: "dpkg-buildpackage -b"
+#  args:
+#    chdir: /opt/nginx_custom_build/nginx-1.15.8
+#  tags: nginx_brotli
+
+- name: install debian nginx package
+  apt:
+    deb: "/opt/nginx_custom_build/{{ item }}"
+  with_items:
+   - nginx-common_1.15.8-0+xenial0_all.deb
+   - nginx-full_1.15.8-0+xenial0_amd64.deb
+  tags: nginx_brotli
+
+- name: set nginx version package on hold never upgraded
+  shell: "apt-mark hold nginx"
+  tags: nginx_brotli
+
+
+    

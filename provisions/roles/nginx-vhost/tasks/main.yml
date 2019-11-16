@@ -1,0 +1,14 @@
+- name: Copy nginx http configuration
+  template:
+    src: "nginx.conf.template"
+    dest: "/etc/nginx/nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+  tags: nginx-vhost
+
+- name: Copy dhparam
+  copy:
+    src: dhparam
+    dest: /etc/nginx/dhparam.pem
+  tags: nginx-vhost

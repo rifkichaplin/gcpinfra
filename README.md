@@ -33,3 +33,11 @@ THUMBOR
 ------
 ANSIBLE_CONFIG=ansible-gce.cfg ansible-playbook thumbor/provision_thumbor.yml
 ANSIBLE_CONFIG=ansible-gce.cfg ansible-playbook thumbor/deploy_thumbor.yml  -e "host_name=thumbor-web ansible_python_interpreter=/usr/bin/python3"
+
+PGAMESID
+------
+ANSIBLE_CONFIG=ansible-pgamesid.cfg ansible-playbook pgamesid_playbook/deploy_pgamesid_playbook.yml -i pgamesid_host -e "@inventories/group_vars/tag_pgamesid.yml" -e "ansible_python_interpreter=/usr/bin/python3"
+
+MGAME
+------
+ANSIBLE_CONFIG=ansible-mgamecom.cfg ansible-playbook mgamedcom_playbook/deploy_mgamecom_playbook.yml -i pgamesid_host -e "@inventories/group_vars/tag_mgamecom.yml" -e "ansible_python_interpreter=/usr/bin/python3"

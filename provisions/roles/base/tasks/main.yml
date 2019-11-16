@@ -15,6 +15,10 @@
     - unzip
     - openjdk-8-jdk
     - whois
+    - libtool
+    - bc
+    - autotools-dev
+    - autoconf
   tags: base
 
 - name: Set timedatectl to Asia/Jakarta

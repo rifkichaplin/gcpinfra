@@ -14,16 +14,3 @@
   with_items:
       - python-certbot-nginx
   tags: certbot
-
-- name: reload nginx service
-  systemd:
-    name: nginx
-    state: reloaded
-    enabled: yes
-  tags: certbot
-
-- name: Obtaining an SSL certificate
-  shell: certbot --nginx -d images.{{ domain }} --non-interactive --agree-tos -m {{ email }}
-  ignore_errors: yes
-  tags: certbot
-

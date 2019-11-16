@@ -1,0 +1,39 @@
+- name: Add ubuntu key server for php fpm
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    update_cache: yes
+    state: present
+  tags: php_fpm
+
+- name: Install php fpm dependecies
+  apt:
+    pkg: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+      - php7.0-fpm
+      - php7.0-mysql
+      - php7.0-curl
+      - php7.0-gd
+      - php7.0-intl
+      - php-pear
+      - php-imagick
+      - php7.0-imap
+      - php7.0-mcrypt
+      - php-memcache
+      - php7.0-pspell
+      - php7.0-recode
+      - php7.0-sqlite3
+      - php7.0-tidy
+      - php7.0-xmlrpc
+      - php7.0-xsl
+      - php7.0-mbstring
+      - php-gettext
+  tags: php_fpm
+
+- name: Start and enable php fpm service
+  systemd:
+    name: php7.0-fpm
+    state: restarted
+    enabled: yes
+  tags: php_fpm

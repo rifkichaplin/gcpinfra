@@ -1,6 +1,6 @@
 # ansible requires setuptools, unfortunately pip install has some dependency topology to adhere, file dependency ordering does not apply
 setuptools==39.2.0
-ansible==2.7.9
+ansible==2.10.0
 apache-libcloud==2.4.0
 
 # Drop-in replacement of pycrypto, which is still required by libcloud when
